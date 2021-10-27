@@ -26,13 +26,13 @@ RUN \
     ca-certificates \
     gnupg \
     wget \
-  apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 60C317803A41BA51845E371A1E9377A2BA9EF27F \
+  && wget -qO - "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x60c317803a41ba51845e371a1e9377a2ba9ef27f" | apt-key add - \
   && echo "deb http://ppa.launchpad.net/ubuntu-toolchain-r/test/ubuntu ${DISTRO} main" > /etc/apt/sources.list.d/gcc.list \
   && apt-get update --quiet \
   && apt-get install --yes --quiet --no-install-recommends \
+    libstdc++-${GCC_MAJOR}-dev \
     gcc-${GCC_MAJOR} \
     g++-${GCC_MAJOR} \
-    gdb \
   && update-alternatives --install /usr/bin/cc cc /usr/bin/gcc-${GCC_MAJOR} 100 \
   && update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++-${GCC_MAJOR} 100 \
   && update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-${GCC_MAJOR} 100 \
@@ -56,7 +56,7 @@ ENV \
   PKG_CONFIG_PATH=/opt/qt${QT_MAJOR}/lib/pkgconfig:${PKG_CONFIG_PATH}
 
 RUN \
-  apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C65D51784EDC19A871DBDBB710C56D0DE9977759 \
+  wget -qO - "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0xC65D51784EDC19A871DBDBB710C56D0DE9977759" | apt-key add - \
   && echo "deb http://ppa.launchpad.net/beineri/opt-qt-${QT_VERSION}-${DISTRO}/ubuntu ${DISTRO} main" > /etc/apt/sources.list.d/qt.list \
   && apt-get update --quiet \
   && apt-get install --yes --quiet --no-install-recommends \
