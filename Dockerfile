@@ -111,7 +111,7 @@ RUN apt-get update --quiet \
   && apt-get --yes autoremove \
   && apt-get clean autoclean \
   && rm -rf /var/lib/apt/lists/{apt,dpkg,cache,log} /tmp/* /var/tmp/* \
-  && qbs setup-toolchains --detect \
+  && qbs setup-toolchains --type gcc /usr/bin/g++ gcc \
   && qbs config defaultProfile gcc \
   && qbs config --list
 
