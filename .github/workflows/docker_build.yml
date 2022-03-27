@@ -3,9 +3,10 @@ name: Build Docker Images
 on: push
 
 env:
-  QBS_BRANCH: v1.20.1
-  QT_MAJOR: "515"
-  QT_VERSION: "5.15.2"
+  QBS_BRANCH: v1.21.0
+  QT_MAJOR: "62"
+  QT_VERSION: "6.2.4"
+  DOCKER_FILE: "Dockerfile.qt6"
 
 jobs:
   qbs-clang:
@@ -40,6 +41,7 @@ jobs:
           buildkitd-flags: --debug
           target: qbs-gcc
           push: ${{ github.event_name != 'pull_request' }}
+          file: ${{ env.DOCKER_FILE }}
           tags: |
             arbmind/qbs-gcc${{ matrix.gcc_major }}:latest
             arbmind/qbs-gcc${{ matrix.gcc_major }}:qbs_${{ env.QBS_BRANCH }}
@@ -55,6 +57,7 @@ jobs:
         with:
           target: qbs-gcc-qt
           push: ${{ github.event_name != 'pull_request' }}
+          file: ${{ env.DOCKER_FILE }}
           tags: |
             arbmind/qbs-gcc${{ matrix.gcc_major }}-qt${{ env.QT_MAJOR }}:latest
             arbmind/qbs-gcc${{ matrix.gcc_major }}-qt${{ env.QT_MAJOR }}:qbs_${{ env.QBS_BRANCH }}
